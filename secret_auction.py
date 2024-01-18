@@ -1,32 +1,29 @@
 import os
 
-biders = []
+bids = {}
 should_run = True
-winner_name = ""
 
+# Adds bider to the bids dictionary.
 def add_bider(bider_name, bider_value):
-    biders.append(
-        {
-            "name": bider_name,
-            "bid": bider_value,
-        }
-    )
-            
+    bids[bider_name] = bider_value
+
+# Clear console for a new bider.            
 def clear_console():
     os.system("cls" if os.name == "nt" else "clear")
 
-def choose_winner(biders_list):
-    print(biders_list)
-    # winner_name = ""
+# Chooses winner with the highest bid.
+def choose_winner(bids_dict):
+    winner_name = "No winner"
     winner_bid = 0
 
-    for bider in biders_list:
-        if bider["bid"] > winner_bid:
-            winner_name = bider["name"]
-            winner_bid = bider["bid"]
+    for bider in bids_dict:
+        if bids_dict[bider] > winner_bid:
+            winner_name = bider
+            winner_bid = bids[bider]
     
-    print(f"The winner is ... with a bid of ${winner_bid}!")
+    print(f"The winner is {winner_name} with a bid of ${winner_bid}!")
 
+# Collecting inputs from users until they want to continue.
 while should_run == True:
     print("Welcome to the secret auction program.")
     name = input("What is your name?: ")
@@ -34,17 +31,11 @@ while should_run == True:
     
     add_bider(name, bid)
     
-    other_biders = input("Are there any other biders? Type 'yes' or 'no'.\n").lower()
-    if other_biders == "yes":
+    other_bids = input("Are there any other bids? Type 'yes' or 'no'.\n").lower()
+    if other_bids == "yes":
         clear_console()
-    else:
+    elif other_bids == "no":
         should_run = False
-
-choose_winner(biders)
-
-
-
-
-
+        choose_winner(bids)
 
 
